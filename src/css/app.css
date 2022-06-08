@@ -1,0 +1,12 @@
+/* app global css */
+@font-face {
+  font-family: CenturyGothic;
+  src: url(./CenturyGothic/CenturyGothic.woff);
+  font-weight: 400;
+  font-size: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: CenturyGothicBold;
+  src: url(./CenturyGothic/CenturyGothic-Bold.ttf);
+}

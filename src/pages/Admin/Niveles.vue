@@ -34,14 +34,7 @@ const modelAdd = ref(false)
 const listaGLobal = reactive(
   {
     datos:
-    [
-      {
-        id: 1,
-        nombre: 'Materia1',
-        descripcion: 'descripcion1',
-        nivel_id: '1'
-      },
-    ],
+    [],
     botones:[
       {
         color: 'primary',

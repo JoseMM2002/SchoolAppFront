@@ -32,7 +32,17 @@ const lista = inject('list')
 const listaG = inject('listG')
 
 const filtrar = () =>{
-
+  lista.datos = listaG.datos.filter(element => {
+    const datos = Object.entries(element)
+    for (let index = 0; index < data.navigators.length; index++) {
+      const value = String(datos[index][1]).toLowerCase()
+      const value2 = String(data.navigators[index].model).toLowerCase()
+      if (!value.includes(value2)){
+        return false
+      }
+    }
+    return true
+  })
 }
 const limpiarNavs = () =>{
 

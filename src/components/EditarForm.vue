@@ -20,14 +20,14 @@
 <script setup>
 import { LocalStorage, useQuasar } from 'quasar';
 import { api } from 'src/boot/axios';
-import { inject, onMounted, reactive } from 'vue';
+import { inject, onMounted, onUnmounted, reactive } from 'vue';
 
 const $q = useQuasar()
 const data = inject('editform')
 const item = LocalStorage.getItem('temp_item')
 const form = reactive([])
+
 const enviarForm = async () =>{
-    console.log(item.id)
     const formData = new FormData
     for (let index = 0; index < form.length; index++) {
         formData.append(data.inputs[index].nombre,form[index])
@@ -56,6 +56,10 @@ onMounted(()=>{
             }
         }
     }
+})
+
+onUnmounted(() =>{
+    LocalStorage.remove('temp_item')
 })
 </script>
 

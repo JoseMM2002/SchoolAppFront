@@ -10,7 +10,7 @@
         <EditarForm/>
       </q-card>
     </q-dialog>
-    <q-dialog persistent v-model="modelDelete">
+    <q-dialog v-model="modelDelete">
       <EliminarForm/>
     </q-dialog>
     <q-dialog v-model="modelAdd">

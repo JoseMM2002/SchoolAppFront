@@ -1,7 +1,9 @@
 <template>
   <div>
+    <div class="q-ma-sm">
+      <q-btn color="green" class="full-width" icon="add" @click="modelAdd = true"></q-btn>
+    </div>
     <List/>
-    <q-btn color="green" class="full-width" icon="add" @click="modelAdd = true"></q-btn>
     <q-dialog v-model="modelEdit">
       <q-card class="absolute-center">
         Editar
@@ -60,6 +62,18 @@ const agregarForm = reactive(
         {
           label: 'Nombre de la materia',
           type: 'text',
+        },
+        {
+          label: 'Descripción de la materia',
+          type: 'text'
+        },
+        {
+          label: 'Niveles',
+          type: 'multiple',
+          api: {
+            url: '/filtros/',
+            name: 'niveles'
+          }
         }
       ],
     boton: 'Agregar materia'

@@ -45,7 +45,10 @@ const filtrar = () =>{
   })
 }
 const limpiarNavs = () =>{
-
+  data.navigators.forEach(element => {
+    element.model = ''
+  });
+  filtrar()
 }
 </script>
 

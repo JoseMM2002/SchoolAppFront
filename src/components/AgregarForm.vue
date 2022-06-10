@@ -38,6 +38,10 @@ const enviarForm = async () =>{
     })
   } catch (error) {
     console.log(error)
+    $q.notify({
+      message: 'Ocurrió algo inesperado',
+      color: 'red'
+    })
   }
 }
 </script>

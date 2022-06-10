@@ -10,10 +10,8 @@
         Editar
       </q-card>
     </q-dialog>
-    <q-dialog v-model="modelDelete">
-      <q-card class="absolute-center">
-        Eliminar
-      </q-card>
+    <q-dialog persistent v-model="modelDelete">
+      <EliminarForm/>
     </q-dialog>
     <q-dialog v-model="modelAdd">
       <AgregarForm/>
@@ -27,6 +25,7 @@ import List from 'src/components/List.vue';
 import AgregarForm from 'src/components/AgregarForm.vue';
 import { api } from 'src/boot/axios';
 import ListNav from 'src/components/ListNav.vue';
+import EliminarForm from 'src/components/EliminarForm.vue';
 
 const modelEdit = ref(false)
 const modelDelete = ref(false)
@@ -90,6 +89,13 @@ const agregarForm = reactive(
     model: modelAdd
   }
 )
+const deleteForm = reactive({
+  nombre: 'Eliminar nivel',
+  boton: 'Eliminar nivel',
+  api: '/niveles/',
+  model: modelDelete,
+  push: '/admin/niveles'
+})
 const listNav = reactive({
   navigators:[
     {
@@ -112,6 +118,7 @@ const listNav = reactive({
 provide('listG',listaGLobal)
 provide('list',list)
 provide('addform',agregarForm)
+provide('deleteform',deleteForm)
 provide('listnav',listNav)
 const getNiveles = async () =>{
   const response = await api.get('/niveles/0')

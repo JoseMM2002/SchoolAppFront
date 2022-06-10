@@ -31,7 +31,6 @@ const deleteItem = async () => {
             message:response.data.Message,
             color:response.data.Color
         })
-        removerTemp()
     } catch (error) {
         console.log(error)
         $q.notify({

@@ -5,18 +5,18 @@
       <q-form class="q-ma-md" @submit.prevent="enviarForm()">
         <section v-for="(item,index) in data.inputs" :key="item.id">
           <label>{{item.label}}</label>
-          <q-input v-if="item.type === 'text'" :type="item.type" v-model="form[index]" :outlined="item.outlined"/>
+          <q-input 
+            v-if="item.type !== 'select' && item.type!=='multiple'" 
+            :type="item.type" 
+            v-model="form[index]" 
+            outlined/>
           <q-select
-            v-else-if="item.type === 'multiple'"
+            v-else-if="item.type === 'select'"
             outlined
             v-model="form[index]"
-            multiple
+            :multiple="item.multiple"
             :options="options[index]"
             :label="item.label"
-          />
-          <q-select
-            v-else-if="item.type==='select'"
-            
           />
         </section>
         <div align="right" class="q-ma-sm">
@@ -57,7 +57,15 @@ const filter = async (val,index) =>{
 const enviarForm = async () =>{
   const formData = new FormData
   for (let index = 0; index < form.length; index++) {
-    console.log(data.inputs.nombre,form[index])
+    if (data.inputs[index].multiple){
+      var aux = []
+      form[index].forEach(element => {
+        aux.push(element.value)
+      });
+      form[index] = JSON.stringify(aux)
+    }else if(data.inputs[index].type === 'select'){
+      form[index] = JSON.stringify(form[index])
+    }
     formData.append(data.inputs[index].nombre,form[index])
   }
   try {
@@ -78,7 +86,7 @@ const enviarForm = async () =>{
 onMounted(async() => {
   for (let index = 0; index < data.inputs.length; index++) {
     const element = data.inputs[index];
-    if(element.type === 'multiple'){
+    if(element.type === 'select'){
       filter(element.api,index)
     }
   }

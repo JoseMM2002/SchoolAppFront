@@ -5,8 +5,19 @@
       <q-form class="q-ma-md" @submit.prevent="enviarForm()">
         <section v-for="(item,index) in data.inputs" :key="item.id">
           <label>{{item.label}}</label>
-          <q-input v-if="item.type !== 'select'" :type="item.type" v-model="form[index]" :outlined="item.outlined"/>
-          <q-select v-else></q-select>
+          <q-input 
+            v-if="item.type !== 'select'" 
+            :type="item.type"
+            v-model="form[index]"
+            outlined/>
+          <q-select
+            v-else-if="item.type === 'select'"
+            outlined
+            v-model="form[index]"
+            :multiple="item.multiple"
+            :options="options[index]"
+            :label="item.label"
+          />
         </section>
         <div align="right q-ma-lg">
           <q-btn color="teal" flat :label="data.boton" type="submit" v-close-popup/>
@@ -26,11 +37,40 @@ const $q = useQuasar()
 const data = inject('editform')
 const item = LocalStorage.getItem('temp_item')
 const form = reactive([])
+const options = reactive([])
+
+const filter = async (val,index) => {
+  const formData = new FormData
+  formData.append('filtro',val.name)
+  try {
+    const response = await api.post(val.url,formData)
+    const filtros = response.data.Data
+    var aux = []
+    filtros.forEach(element => {
+      aux.push({label:element.label,value:element.id})
+      if (element.label === form[index]) {
+        form[index] = {label: element.label,value:element.id}
+      }
+    })
+    options[index] = aux
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const enviarForm = async () =>{
     const formData = new FormData
     for (let index = 0; index < form.length; index++) {
-        formData.append(data.inputs[index].nombre,form[index])
+      if (data.inputs[index].multiple){
+        var aux = []
+        form[index].forEach(element => {
+          aux.push(element.value)
+        })
+        form[index] = JSON.stringify(aux)
+      } else if (data.inputs[index].type === 'select'){
+        form[index] = JSON.stringify(form[index])
+      }
+      formData.append(data.inputs[index].nombre,form[index])
     }
     try {
         const response = await api.post(data.api + item.id, formData)
@@ -55,6 +95,12 @@ onMounted(()=>{
                 form.push(element)
             }
         }
+    }
+    for (let index = 0; index < data.inputs.length; index++) {
+      const element = data.inputs[index]
+      if(element.type === 'select'){
+        filter(element.api,index)
+      }
     }
 })
 

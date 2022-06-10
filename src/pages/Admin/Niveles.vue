@@ -33,20 +33,7 @@ const modelDelete = ref(false)
 const modelAdd = ref(false)
 const listaGLobal = reactive(
   {
-    datos:
-    [],
-    botones:[
-      {
-        color: 'primary',
-        icon: 'edit',
-        model: modelEdit
-      },
-      {
-        color: 'red',
-        icon: 'delete',
-        model: modelDelete
-      }
-    ]
+    datos:[]
   }
 )
 const list = reactive(
@@ -99,18 +86,16 @@ const editform = reactive(
           label: 'Nombre del nivel',
           type: 'text',
           nombre: 'nombre',
-          outlined: true
         },
         {
           label:'Descripcion del nivel',
           type:'text',
-          nombre: 'descripcion',
-          outlined: true
+          nombre: 'descripcion'
         }
       ],
-    boton: 'Agregar nivel',
+    boton: 'Editar nivel',
     api:'/niveles/',
-    model: modelAdd
+    model: modelEdit
   }
 )
 const deleteForm = reactive({
@@ -118,7 +103,6 @@ const deleteForm = reactive({
   boton: 'Eliminar nivel',
   api: '/niveles/',
   model: modelDelete,
-  push: '/admin/niveles'
 })
 const listNav = reactive({
   navigators:[

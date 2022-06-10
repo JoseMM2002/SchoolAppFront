@@ -81,7 +81,6 @@ const login = async () => {
       tokenStore.setToken(data.Token)
       LocalStorage.set('web_token',data.Token)
       router.push('/admin/')
-      console.log(data)
     }
 
   } catch (error) {

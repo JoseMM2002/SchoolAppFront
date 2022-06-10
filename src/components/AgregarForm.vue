@@ -5,7 +5,8 @@
       <q-form class="q-ma-md" @submit.prevent="enviarForm()">
         <section v-for="(item,index) in data.inputs" :key="item.id">
           <label>{{item.label}}</label>
-          <q-input :type="item.type" v-model="form[index]" :outlined="item.outlined"/>
+          <q-input v-if="item.type !== 'select'" :type="item.type" v-model="form[index]" :outlined="item.outlined"/>
+          <q-select v-else></q-select>
         </section>
         <div align="right q-ma-lg">
           <q-btn color="teal" flat :label="data.boton" type="submit" v-close-popup/>
@@ -27,7 +28,6 @@ const form = reactive([])
 const enviarForm = async () =>{
   const formData = new FormData
   for (let index = 0; index < form.length; index++) {
-    console.log(data.inputs[index].nombre,form[index])
     formData.append(data.inputs[index].nombre,form[index])
   }
   try {

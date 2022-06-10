@@ -3,10 +3,10 @@
     <div class="q-ma-md">
       <h6 class="text-center">{{deleteForm.nombre}} </h6>
       <section class="">
-        <div align="right" class="q-ma-xs">
-          <q-btn color="red" :label="deleteForm.boton" flat @click="deleteItem"/>
-          <q-btn color="teal" flat label="Cerrar" @click="removerTemp"/>
-        </div>
+        <q-form align="right" @submit.prevent="deleteItem" class="q-ma-xs">
+          <q-btn color="red" :label="deleteForm.boton" flat  type="submit" v-close-popup/>
+          <q-btn color="teal" flat label="Cerrar" @click="removerTemp" />
+        </q-form>
       </section>
     </div>
   </q-card>
@@ -26,7 +26,6 @@ const router = useRouter()
 const removerTemp = () => {
     LocalStorage.remove('temp_item')
     deleteForm.model = false
-    return true
 }
 const deleteItem = async () => {
     try {

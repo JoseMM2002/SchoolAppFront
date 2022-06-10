@@ -7,7 +7,7 @@
     <List v-if="getNiveles()"/>
     <q-dialog v-model="modelEdit">
       <q-card class="absolute-center">
-        Editar
+        <EditarForm/>
       </q-card>
     </q-dialog>
     <q-dialog persistent v-model="modelDelete">
@@ -26,6 +26,7 @@ import AgregarForm from 'src/components/AgregarForm.vue';
 import { api } from 'src/boot/axios';
 import ListNav from 'src/components/ListNav.vue';
 import EliminarForm from 'src/components/EliminarForm.vue';
+import EditarForm from 'src/components/EditarForm.vue';
 
 const modelEdit = ref(false)
 const modelDelete = ref(false)
@@ -89,6 +90,29 @@ const agregarForm = reactive(
     model: modelAdd
   }
 )
+const editform = reactive(
+  {
+    nombre: 'Editar Nivel',
+    inputs:
+      [
+        {
+          label: 'Nombre del nivel',
+          type: 'text',
+          nombre: 'nombre',
+          outlined: true
+        },
+        {
+          label:'Descripcion del nivel',
+          type:'text',
+          nombre: 'descripcion',
+          outlined: true
+        }
+      ],
+    boton: 'Agregar nivel',
+    api:'/niveles/',
+    model: modelAdd
+  }
+)
 const deleteForm = reactive({
   nombre: 'Eliminar nivel',
   boton: 'Eliminar nivel',
@@ -119,10 +143,11 @@ provide('listG',listaGLobal)
 provide('list',list)
 provide('addform',agregarForm)
 provide('deleteform',deleteForm)
+provide('editform',editform)
 provide('listnav',listNav)
 const getNiveles = async () =>{
   const response = await api.get('/niveles/0')
-  for (let index = 0; index < response.data.Data.length; index++) {
+  for (let index = 0; index <= response.data.Data.length - 1; index++) {
     const element = response.data.Data[index];
     list.datos[index] = {
       id: element.id,
@@ -135,11 +160,14 @@ const getNiveles = async () =>{
       descripcion: element.descripcion
     }
   }
+  if (response.data.Data.length === 0){
+    listaGLobal.datos = []
+    list.datos = []
+  }
   if (listaGLobal.datos.length>0){
     return true
-  } else {
-    return false
   }
+  return false
 }
 </script>
 

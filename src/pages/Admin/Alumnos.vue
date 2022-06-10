@@ -66,7 +66,4 @@ const agregarForm = reactive(
 provide('list',list)
 provide('addform',agregarForm)
 
-onMounted(() => {
-  console.log('aqui')
-})
 </script>
